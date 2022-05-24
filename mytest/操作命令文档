@@ -1,0 +1,5 @@
+1.首先进入虚拟环境命令行
+python manage.py runserver（启动服务器）
+python manage.py makemigrations（查找迁移文件）
+python manage.py migrate（迁移文件）
+python manage.py createsuperuser（创造xadmin管理员用户）
