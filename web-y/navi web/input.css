@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.full{
+    @apply w-full h-full;
+}
+
+.top{
+    @apply w-full absolute top-0 flex justify-between items-center bg-gray-200 border-b border-solid border-gray-300 opacity-50;
+}
+
+.bottom{
+    @apply absolute bottom-0 bg-gray-100 border-b border-solid border-gray-200 opacity-50 text-xs;
+}
+
+.box{
+    margin: auto;
+    @apply border border-solid border-gray-400 bg-white opacity-75 rounded w-96 h-80 grid place-items-center;
+}
+
+.submit{
+    @apply grid justify-items-center flex flex-col space-y-10;
+}
+
