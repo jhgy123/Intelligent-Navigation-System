@@ -23,3 +23,44 @@
     @apply grid justify-items-center flex flex-col space-y-10;
 }
 
+.display{
+    height: 30rem;
+    @apply shrink-0 overflow-x-scroll flex items-center w-full;
+}
+
+.display div{
+    @apply shrink-0 px-4 py-3 bg-white/50;
+}
+
+.display img{
+    @apply w-96 h-72;
+}
+
+.dropdown {
+    @apply relative inline-block;
+}
+
+.dropdown-content {
+    @apply hidden absolute w-20 bg-gray-200 border-solid border-gray-300 text-black;
+}
+
+.dropdown:hover .dropdown-content {
+    @apply block;
+}
+
+.dropdown-content a{
+    @apply w-full shadow shadow-slate-300;
+}
+
+.display-failpage{
+    height: 30rem;
+    @apply shrink-0 overflow-x-scroll flex items-center w-full;
+}
+
+.display-failpage div{
+    @apply shrink-0 px-4 py-3 bg-gray-200;
+}
+
+.display-failpage img{
+    @apply w-96 h-72;
+}
