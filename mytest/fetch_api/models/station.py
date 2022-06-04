@@ -10,8 +10,11 @@ from neomodel import (
     RelationshipTo,
     RelationshipFrom,
     Relationship,
-    UniqueIdProperty
+    UniqueIdProperty, StructuredRel, FloatProperty
 )
+class CostShip(StructuredRel):
+    pathcost = FloatProperty(default=0.0)
+
 
 class Station(DjangoNode):
     station_id = UniqueIdProperty(primary_key=True)
@@ -22,7 +25,7 @@ class Station(DjangoNode):
     # intermediaries           = RelationshipFrom('.intermediary.Intermediary', 'INTERMEDIARY_OF')
     # addresses                = RelationshipTo('.address.Address', 'REGISTERED_ADDRESS')
     # others                   = RelationshipFrom('.other.Other', 'CONNECTED_TO')
-    cost = Relationship('.station.Station', 'FRIEND')
+    cost = RelationshipTo('.station.Station', 'FRIEND',model=CostShip)
 
     class Meta:
         app_label = "fetch_api"

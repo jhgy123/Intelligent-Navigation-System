@@ -102,3 +102,6 @@ class GetDataSource(APIView):
             },
         }
         return Response(data)
+
+
+######django views

@@ -1,3 +1,5 @@
+from neomodel import db
+
 from .constants import COUNTRIES, JURISDICTIONS, DATASOURCE
 
 from .models import (
@@ -94,3 +96,25 @@ def fetch_jurisdictions():
 
 def fetch_data_source():
     return DATASOURCE
+
+########################myfunction#####################
+# def fetch_shortestPath(sourceStation_name, targetStation_name):
+#     results = db.cypher_query(query='''MATCH (source:Station {station_name: $s})
+#     WITH source
+#     MATCH (target:Station {station_name: $t})
+#     CALL gds.shortestPath.dijkstra.stream('myGraph', {
+#         sourceNode: source,
+#         targetNode: target,
+#         relationshipWeightProperty: 'pathcost'
+#     })
+#     YIELD index, sourceNode, targetNode, totalCost, nodeIds, costs, path
+#     RETURN
+#         index,
+#         gds.util.asNode(sourceNode).station_name AS sourceNodeName,
+#         gds.util.asNode(targetNode).station_name AS targetNodeName,
+#         totalCost,
+#         [nodeId IN nodeIds | gds.util.asNode(nodeId).station_name] AS nodeNames,
+#         costs,
+#         nodes(path) as path
+#     ORDER BY index''', params={'s': sourceStation_name, 't': targetStation_name})
+#     return results

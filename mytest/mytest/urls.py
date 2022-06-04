@@ -21,7 +21,8 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
+    # url(r'^$', TemplateView.as_view(template_name='index1.html'), name='index'),
+    url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     # url('xadmin/', xadmin.site.urls),
 
     url(r'^fetch/', include('fetch_api.urls')),

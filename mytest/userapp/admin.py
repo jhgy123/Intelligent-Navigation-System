@@ -26,5 +26,5 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 
 admin.site.site_title = "智能出行导航系统--后台管理"
-admin.site.site_header = "智能出行导航系统"
+admin.site.site_header = "智能出行导航-后台管理系统"
 admin.site.index_title = "后台主页"

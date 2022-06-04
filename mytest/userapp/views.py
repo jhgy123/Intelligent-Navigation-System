@@ -12,7 +12,7 @@ def login_user(request):
         data = {}
         return render(request, 'login.html', context=data)
     elif request.method == "POST": #post请求处理
-        uid = request.POST.get('username')
+        uid = request.POST.get('tel')
         upaw = request.POST.get('password')
         users = User.objects.filter(u_id=uid)
         if users.exists():  #用户存在
@@ -38,7 +38,7 @@ def login_user(request):
                 data = {
                     "test": "密码错确",
                 }
-                return render(request, 'test.html', context=data)
+                return render(request, 'login-fail.html', context=data)
         else:#用户不存在处理
             data = {
                 "test": "用户不存在",

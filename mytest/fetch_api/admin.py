@@ -13,7 +13,6 @@ from .models import Entity, Station
 # class EntityAdmin(dj_admin.ModelAdmin):
 #     list_display = ("name",)
 # neo_admin.register(Entity, EntityAdmin)
-
 class StationAdmin(dj_admin.ModelAdmin):
-    list_display = ("station_id",)
+    list_display = ("station_id","station_name","latitude","longitude")
 neo_admin.register(Station, StationAdmin)

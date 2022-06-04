@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" class="full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登陆错误</title>
+    <link href="{% static 'css/output.css' %}" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+</head>
+<body class="full">
+<div class="full grid place-content-center justify-items-center">
+    <div class="top">
+        <div>
+            <a href="{% url 'home' %}">
+                <i class="fa fa-home mx-4"></i>
+            </a>
+        </div>
+        <div class="flex flex-row items-center">
+            <div>
+                <a href="{% url 'user:login_user' %}">登录</a>
+            </div>
+            <i class="fa fa-user mx-4"></i>
+        </div>
+    </div>
+    <div>{{ test}}</div>
+    <div class="bottom">
+        <p>Copyright©2022  版权所有 智能出行导航系统</p>
+    </div>
+</div>
+</body>
+</html>
