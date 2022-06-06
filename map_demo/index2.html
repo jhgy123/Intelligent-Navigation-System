@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>添加点标记</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<!--  <style>-->
+<!--    body{font-size:14px;}-->
+<!--    html,-->
+<!--    #container {-->
+<!--      overflow: hidden;-->
+<!--      width: 90%;-->
+<!--      height: 90%;-->
+<!--      margin: 0;-->
+<!--      font-family: "微软雅黑";-->
+<!--    }-->
+
+  </style>
+  <style>
+    body{font-size:14px;}
+    h5{line-height:3em;padding:0;margin:0;}
+    a{color:#EE3399;}
+    a:hover{color:#99AA66;}
+    .txt{border:1px solid #ccc;background:none;padding:1px;}
+    .f-l{float:left;}
+    .t-c{text-align:center;}
+    .clear{clear:both;}
+    .hidden{display:none;}
+    .searchbox{border:4px solid #e5ecf9;height:40px;float:left;line-height:40px;padding:0 20px;margin:0 0 0 50px;}
+    .mainbox{margin:20px 0 0;}
+    .boxmap{width:700px;height:500px;border:1px solid gray;float:left;}
+    .boxpanel{width:250px;float:left;margin:0 0 0 10px;border:1px solid gray;padding:0 10px 10px;}
+    #startPanel,#endPanel{border:1px solid #FA8722;font-size:12px;}
+    #startPanel div,#endPanel div{padding:5px;}
+    #startPanel p,#endPanel p{margin:0;paddin:0;line-height:1.2em;}
+    #drivingPanel{border:1px solid #6688EE;}
+  </style>
+  <style type="text/css">
+    body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+  </style>
+
+  <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
+
+</head>
+<body>
+<!--<input type="text">-->
+<!--  <div id="container"></div>-->
+<div>
+  <img class="f-l" src="http://map.baidu.com/img/logo-map.gif"/>
+  <div class="searchbox">
+    从<input class="txt" type="text" value="机场" id="startInput"/>到<input class="txt" type="text" value="西站" id="endInput"/><input type="button" value="驾车" onclick="mDriving()"/>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="mainbox">
+  <div class="boxmap" id="container"></div>
+  <div class="boxpanel hidden" id="box">
+    <h5>起点选择 <a href="#" onclick="document.getElementById('startPanel').style.display='block';">(展开)</a></h5>
+    <div id="startPanel"></div>
+    <h5>终点选择 <a href="#" onclick="document.getElementById('endPanel').style.display='block';">(展开)</a></h5>
+    <div id="endPanel"></div>
+    <h5>驾车导航</h5>
+    <div id="drivingPanel"></div>
+  </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+  var map = new BMapGL.Map('container', {
+    enableDblclickZoom: false,
+    displayOptions: {
+      building: false
+    }
+  });
+  map.centerAndZoom('昆明市', 11);
+  map.enableScrollWheelZoom(true);
+
+
+  var bd = new BMapGL.Boundary();
+  bd.get('昆明市', function (rs) {
+    console.log('外轮廓：', rs.boundaries[0]);
+    console.log('内镂空：', rs.boundaries[1]);
+    var hole = new BMapGL.Polygon(rs.boundaries);
+    map.addOverlay(hole);
+    var ply = new BMapGL.Polygon(rs.boundaries[0])
+    map.setViewport(ply.getPath());
+  });
+
+  var top_left_control = new BMapGL.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+  map.addControl(top_left_control);//添加比例尺
+
+  // //单击获取点击的经纬度
+  // map.addEventListener("click",function(e){
+  //   $("#s-point").text(e.point.lng+","+e.point.lat);
+  //   var marker = new BMap.Marker(e.point);
+  //   map.addOverlay(marker);
+  // });
+
+
+
+
+</script>
