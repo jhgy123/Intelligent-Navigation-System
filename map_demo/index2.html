@@ -24,6 +24,7 @@
   </style>
 
   <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
+  <script type="text/javascript" src="//api.map.baidu.com/api?type=subway&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
   <link rel="stylesheet" href="css/index2.css">
 
 </head>
@@ -31,28 +32,33 @@
 <!--<input type="text">-->
 <!--  <div id="container"></div>-->
 <div>
-  <img class="f-l" src="http://map.baidu.com/img/logo-map.gif"/>
   <div class="searchbox">
-    从<input class="txt" type="text" value="机场" id="startInput"/>到<input class="txt" type="text" value="西站" id="endInput"/><input type="button" value="驾车" onclick="mDriving()"/>
+    起点：<input class="txt" type="text" value="机场" id="startInput"/>
+    终点：<input class="txt" type="text" value="西站" id="endInput"/>
+    <input type="button" value="导航" onclick="mDriving()"/>
   </div>
 </div>
 <div class="clear"></div>
 <div class="mainbox">
   <div class="boxmap" id="container"></div>
+  <div class="boxmap" id="container1"></div>
   <div class="boxpanel hidden" id="box">
     <h5>起点选择 <a href="#" onclick="document.getElementById('startPanel').style.display='block';">(展开)</a></h5>
     <div id="startPanel"></div>
     <h5>终点选择 <a href="#" onclick="document.getElementById('endPanel').style.display='block';">(展开)</a></h5>
     <div id="endPanel"></div>
-    <h5>驾车导航</h5>
+    <h5>导航</h5>
     <div id="drivingPanel"></div>
   </div>
 </div>
+
+
+
 </body>
 </html>
 <script type="text/javascript">
 
-  var map = new BMapGL.Map('container', {
+  var map = new BMapGL.Map('containe', {
     enableDblclickZoom: false,
     displayOptions: {
       building: false
@@ -75,7 +81,7 @@
   var top_left_control = new BMapGL.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
   map.addControl(top_left_control);//添加比例尺
 
-  // //单击获取点击的经纬度
+  //单击获取点击的经纬度
   // map.addEventListener("click",function(e){
   //   $("#s-point").text(e.point.lng+","+e.point.lat);
   //   var marker = new BMap.Marker(e.point);
@@ -85,4 +91,127 @@
 
 
 
+</script>
+<script type="text/javascript">
+  /**
+   * 从所有城市列表中获取北京信息
+   * 结果格式
+   * {
+   *     keyword: 'beijing',
+   *     name: '北京',
+   *     citycode: '131'
+   * }
+   */
+  /* globals BMapSub */
+  var subwayCityName = '昆明';
+  var list = BMapSub.SubwayCitiesList;
+  var subwaycity = null;
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].name === subwayCityName) {
+      subwaycity = list[i];
+      break;
+    }
+  }
+  // 获取北京地铁数据-初始化地铁图
+  var subway = new BMapSub.Subway('container1', subwaycity.citycode);
+  var zoomControl  = new BMapSub.ZoomControl({
+    anchor: BMAPSUB_ANCHOR_BOTTOM_RIGHT,
+    offset: new BMapSub.Size(10,100)
+  });
+  subway.addControl(zoomControl);
+  subway.addEventListener('subwayloaded', function() {
+    var drct = new BMapSub.Direction(subway);
+    drct.search('金桂街', '昆明南火车站');
+  });
+  subway.addEventListener('directioncomplete', function() {
+    alert('可以自定义点击详情后的操作！');
+  });
+</script>
+<script type="text/javascript">
+  var map = new BMapGL.Map('container', {
+    enableDblclickZoom: false,
+    displayOptions: {
+      building: false
+    }
+  });
+  map.centerAndZoom('昆明市', 11);
+  map.enableScrollWheelZoom(true);
+
+  var startInfowin =new BMapGL.InfoWindow("<p class='t-c'><input value='选为起点' type='button' onclick='startDeter();' /></p>");
+  var endInfowin =new BMapGL.InfoWindow("<p class='t-c'><input value='选为终点' type='button' onclick='endDeter();' /></p>");
+
+  var startResults =null;
+  var endResults =null;
+
+  var startPoint;
+  var endPoint;
+
+  //var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true,panel:drivingPanel}});
+  var driving = new BMapGL.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true, panel:'drivingPanel'}});
+
+
+
+  var startOption = {
+    onSearchComplete: function(results){
+      // 判断状态是否正确
+      if (startSearch.getStatus() == BMAP_STATUS_SUCCESS){
+        startResults = results;
+        var s = [];
+        for (var i =0; i < results.getCurrentNumPois(); i ++){
+          s.push("<div><p><a onmouseover='map.openInfoWindow(startInfowin,startResults.getPoi("+ i +").point);' href='#'>");
+          s.push(results.getPoi(i).title);
+          s.push("</a></p><p>");
+          s.push(results.getPoi(i).address);
+          s.push("</p></div>");
+        }
+        document.getElementById("startPanel").innerHTML = s.join("");
+      }else{startResults =null;}
+    }
+  };
+  var endOption = {
+    onSearchComplete: function(results){
+      // 判断状态是否正确
+      if (endSearch.getStatus() == BMAP_STATUS_SUCCESS){
+        endResults = results;
+        var s = [];
+        for (var i =0; i < results.getCurrentNumPois(); i ++){
+          s.push("<div><p><a href='#' onmouseover='map.openInfoWindow(endInfowin,endResults.getPoi("+ i +").point);'>");
+          s.push(results.getPoi(i).title);
+          s.push("</a></p><p>");
+          s.push(results.getPoi(i).address);
+          s.push("</p></div>");
+        }
+        document.getElementById("endPanel").innerHTML = s.join("");
+      }else{endResults =null;}
+    }
+  };
+  //创建2个搜索实例
+  var startSearch =new BMapGL.LocalSearch(map,startOption);
+  var endSearch =new BMapGL.LocalSearch(map,endOption);
+  var walking = new BMapGL.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
+  walking.search("西单", "慈云寺");
+
+  function mDriving(){
+    var startPlace = document.getElementById("startInput").value;
+    var endPlace = document.getElementById("endInput").value;
+    startSearch.search(startPlace);
+    endSearch.search(endPlace);
+    document.getElementById("box").style.display="block";
+  }
+
+  function startDeter(){
+    map.clearOverlays();
+    startPoint = startInfowin.getPosition();
+    var marker =new BMapGL.Marker(startPoint);
+    map.addOverlay(marker);
+    document.getElementById("startPanel").style.display="none";
+  }
+  function endDeter(){
+    if(startPoint==null){alert("请先选择起点！");}
+    else{
+      endPoint = endInfowin.getPosition();
+      driving.search(startPoint,endPoint);
+      document.getElementById("endPanel").style.display="none";
+    }
+  }
 </script>
