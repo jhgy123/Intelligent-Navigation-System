@@ -4,29 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登陆错误</title>
+    <title>错误提示</title>
     <link href="{% static 'css/output.css' %}" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
 </head>
 <body class="full">
-<div class="full grid place-content-center justify-items-center">
-    <div class="top">
-        <div>
-            <a href="{% url 'home' %}">
-                <i class="fa fa-home mx-4"></i>
+    <div class="full">
+        <div class="top">
+            <div>
+                <a href="{% url 'home' %}">
+                    <i class="fa fa-home mx-4"></i>
+                </a>
+            </div>
+            <div class="flex flex-row items-center">
+                <div class="dropdown">
+                    <button class="px-2 hover:bg-blue-400">登录</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'user:login_user' %}">用户登录</a>
+                        <a href="/xadmin/">管理员登录</a>
+                    </div>
+                </div>
+                <i class="fa fa-user mr-4 ml-2"></i>
+            </div>
+        </div>
+        <div class="absolute top-20 inset-x-0 text-center">
+            <a href="{% url 'user:login_user' %}">
+                <h1 class="text-red-600 text-4xl pb-3">{{ test }},登录失败!</h1>
+                <p class="text-3xl">点击此处重新登录</p>
             </a>
         </div>
-        <div class="flex flex-row items-center">
-            <div>
-                <a href="{% url 'user:login_user' %}">登录</a>
+        <div class="absolute inset-x-0 text-center" style="top:20rem;">
+            <p class="text-2xl">登录即可使用导航功能</p>
+        </div>
+        <div class="overflow-hidden w-1/2 h-3/5 absolute top-72 left-1/4">
+            <div class="display-failpage">
+                <div>
+                    <img src="{% static 'images/display-1.jpg' %}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-2.jpg' %}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-3.jpg' %}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-4.jpg' %}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-5.jpg' %}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-6.jpg' %}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-7.jpg' %}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-8.jpg' %}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-9.jpg' %}"/>
+                </div>
             </div>
-            <i class="fa fa-user mx-4"></i>
+        </div>
+        <div class="bottom">
+            <p>Copyright©2022  版权所有 智能出行导航系统</p>
         </div>
     </div>
-    <div>{{ test}}</div>
-    <div class="bottom">
-        <p>Copyright©2022  版权所有 智能出行导航系统</p>
-    </div>
-</div>
 </body>
 </html>

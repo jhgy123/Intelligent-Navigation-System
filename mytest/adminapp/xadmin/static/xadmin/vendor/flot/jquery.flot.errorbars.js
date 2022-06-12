@@ -56,7 +56,7 @@ user-defined drawing function, with (ctx, x, y, radius) as parameters, as eg.
 
 Color and radius both default to the same ones of the points series if not
 set. The independent radius parameter on xerr/yerr is useful for the case when
-we may want to add error-bars to a line, without showing the interconnecting
+we may want to add error-bars to a is_transit, without showing the interconnecting
 points (with radius: 0), and still showing end caps on the error-bars.
 shadowSize and lineWidth are derived as well from the points series.
 

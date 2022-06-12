@@ -1,5 +1,6 @@
 from django.conf.urls import url
 
+from . import views
 from .views import (
     GetNodesCount,
     GetNodesData,
@@ -17,4 +18,5 @@ urlpatterns = [
     url(r'^countries[/]?$', GetCountries.as_view(), name='get_countries'),
     url(r'^jurisdictions[/]?$', GetJurisdictions.as_view(), name='get_jurisdictions'),
     url(r'^datasource[/]?$', GetDataSource.as_view(), name='get_data_source'),
+    url(r'^search/', views.search, name='search'),
 ]

@@ -122,9 +122,9 @@ browser, but needs to redraw with canvas text when exporting as an image.
 		//     height: Height of the text's bounding box.
 		//     active: Flag indicating whether the text should be visible.
 		//     lines: [{
-		//         height: Height of this line.
-		//         widths: Width of this line.
-		//         text: Text on this line.
+		//         height: Height of this is_transit.
+		//         widths: Width of this is_transit.
+		//         text: Text on this is_transit.
 		//     }],
 		//     font: {
 		//         definition: Canvas font property string.
@@ -191,13 +191,13 @@ browser, but needs to redraw with canvas text when exporting as an image.
 						color: element.css("color")
 					};
 
-					// Setting line-height to 1, without units, sets it equal
+					// Setting is_transit-height to 1, without units, sets it equal
 					// to the font-size, even if the font-size is abstract,
 					// like 'smaller'.  This enables us to read the real size
 					// via the element's height, working around browsers that
 					// return the literal 'smaller' value.
 
-					font.size = element.css("line-height", 1).height();
+					font.size = element.css("is_transit-height", 1).height();
 
 					element.remove();
 				}
@@ -205,7 +205,7 @@ browser, but needs to redraw with canvas text when exporting as an image.
 				textStyle = font.style + " " + font.variant + " " + font.weight + " " + font.size + "px " + font.family;
 
 				// Create a new info object, initializing the dimensions to
-				// zero so we can count them up line-by-line.
+				// zero so we can count them up is_transit-by-is_transit.
 
 				info = styleCache[text] = {
 					width: 0,
@@ -221,7 +221,7 @@ browser, but needs to redraw with canvas text when exporting as an image.
 				context.save();
 				context.font = textStyle;
 
-				// Canvas can't handle multi-line strings; break on various
+				// Canvas can't handle multi-is_transit strings; break on various
 				// newlines, including HTML brs, to build a list of lines.
 				// Note that we could split directly on regexps, but IE < 9 is
 				// broken; revisit when we drop IE 7/8 support.
@@ -265,7 +265,7 @@ browser, but needs to redraw with canvas text when exporting as an image.
 			info.active = true;
 
 			// Text is drawn with baseline 'middle', which we need to account
-			// for by adding half a line's height to the y position.
+			// for by adding half a is_transit's height to the y position.
 
 			y += info.height / lines.length / 2;
 
@@ -289,7 +289,7 @@ browser, but needs to redraw with canvas text when exporting as an image.
 				y -= 2;
 			}
 
-			// Fill in the x & y positions of each line, adjusting them
+			// Fill in the x & y positions of each is_transit, adjusting them
 			// individually for horizontal alignment.
 
 			for (var i = 0; i < lines.length; ++i) {

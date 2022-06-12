@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     # url('xadmin/', xadmin.site.urls),
 
-    url(r'^fetch/', include('fetch_api.urls')),
+    url(r'^fetch/', include(('fetch_api.urls','fetch'),namespace='fetch')),
 #用户路由
     url(r'^user/', include(('userapp.urls', 'user'), namespace='user')),
 ]

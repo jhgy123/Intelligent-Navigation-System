@@ -14,5 +14,5 @@ from .models import Entity, Station
 #     list_display = ("name",)
 # neo_admin.register(Entity, EntityAdmin)
 class StationAdmin(dj_admin.ModelAdmin):
-    list_display = ("station_id","station_name","latitude","longitude")
+    list_display = ("station_id","station_name","latitude","longitude","is_transit")
 neo_admin.register(Station, StationAdmin)

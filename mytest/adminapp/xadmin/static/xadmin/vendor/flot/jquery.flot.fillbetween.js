@@ -1,4 +1,4 @@
-/* Flot plugin for computing bottoms for filled line and bar charts.
+/* Flot plugin for computing bottoms for filled is_transit and bar charts.
 
 Copyright (c) 2007-2013 IOLA and Ole Laursen.
 Licensed under the MIT license.
@@ -21,10 +21,10 @@ As a convenience, if the id given is a number that doesn't appear as an id in
 the series, it is interpreted as the index in the array instead (so fillBetween:
 0 can also mean the first series).
 
-Internally, the plugin modifies the datapoints in each series. For line series,
+Internally, the plugin modifies the datapoints in each series. For is_transit series,
 extra data points might be inserted through interpolation. Note that at points
-where the bottom line is not defined (due to a null point or start/end of line),
-the current line will show a gap too. The algorithm comes from the
+where the bottom is_transit is not defined (due to a null point or start/end of is_transit),
+the current is_transit will show a gap too. The algorithm comes from the
 jquery.flot.stack.js plugin, possibly some code could be shared.
 
 */
@@ -197,7 +197,7 @@ jquery.flot.stack.js plugin, possibly some code could be shared.
 					}
 				}
 
-				// maintain the line steps invariant
+				// maintain the is_transit steps invariant
 
 				if ( withsteps && l !== newpoints.length && l > 0 &&
 					newpoints[ l ] !== null &&

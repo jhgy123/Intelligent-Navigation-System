@@ -326,7 +326,7 @@ class ModelFormAdminView(ModelAdminView):
             'save_on_top': self.save_on_top,
         }
 
-        # for submit line
+        # for submit is_transit
         new_context.update({
             'onclick_attrib': '',
             'show_delete_link': (new_context['has_delete_permission']

@@ -23,16 +23,15 @@ def login_user(request):
                     username = user.u_name
                     request.session['username'] = username
                     #test
-                    data = {
-                        "test": "登陆成功，跳转主页面",
-                    }
-                    return render(request, 'test.html', context=data)
+                    data = {}
+                    return redirect(reverse("fetch:search"))
+                    # return render(request, 'pathsearch.html', context=data)
                     # return redirect(reverse("user:home"))
                 else:#用户被删除
                     data = {
-                        "test": "账号状态异常提示,请联系管理员处理后再登录",
+                        "test": "账号状态异常提示",
                     }
-                    return render(request, 'test.html', context=data)
+                    return render(request, 'login-fail.html', context=data)
                     # return render(request, 'notice.html', acontext=data)
             else: #密码错确
                 data = {
@@ -43,5 +42,5 @@ def login_user(request):
             data = {
                 "test": "用户不存在",
             }
-            return render(request, 'test.html', context=data)
+            return render(request, 'login-fail.html', context=data)
         # return render(request, 'login_error_s.html')

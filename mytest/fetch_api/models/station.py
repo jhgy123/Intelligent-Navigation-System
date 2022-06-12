@@ -10,7 +10,7 @@ from neomodel import (
     RelationshipTo,
     RelationshipFrom,
     Relationship,
-    UniqueIdProperty, StructuredRel, FloatProperty
+    UniqueIdProperty, StructuredRel, FloatProperty, BooleanProperty
 )
 class CostShip(StructuredRel):
     pathcost = FloatProperty(default=0.0)
@@ -21,6 +21,7 @@ class Station(DjangoNode):
     station_name = StringProperty()
     latitude = StringProperty()
     longitude = StringProperty()
+    is_transit = StringProperty()
     # officers                 = RelationshipFrom('.officer.Officer', 'OFFICER_OF')
     # intermediaries           = RelationshipFrom('.intermediary.Intermediary', 'INTERMEDIARY_OF')
     # addresses                = RelationshipTo('.address.Address', 'REGISTERED_ADDRESS')
@@ -40,6 +41,7 @@ class Station(DjangoNode):
                 'station_name': self.station_name,
                 'latitude': self.latitude,
                 'longitude': self.longitude,
+                'is_transit': self.is_transit
             },
         }
 

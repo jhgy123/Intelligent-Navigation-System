@@ -466,7 +466,7 @@ Licensed under the MIT license.
                     labelWidth: null, // size of tick labels in pixels
                     labelHeight: null,
                     reserveSpace: null, // whether to reserve space even if axis isn't shown
-                    tickLength: null, // size in pixels of ticks, or "full" for whole line
+                    tickLength: null, // size in pixels of ticks, or "full" for whole is_transit
                     alignTicksWithAxis: null, // axis number or null for no sync
                     tickDecimals: null, // no. of decimals, null means auto
                     tickSize: null, // number or [number, "unit"]
@@ -1069,7 +1069,7 @@ Licensed under the MIT license.
                         }
                     }
                     else {
-                        // a little bit of line specific stuff that
+                        // a little bit of is_transit specific stuff that
                         // perhaps shouldn't be here, but lacking
                         // better means...
                         if (insertSteps && k > 0
@@ -1841,7 +1841,7 @@ Licensed under the MIT license.
                     yrange.to = yrange.axis.p2c(yrange.to);
 
                     if (xrange.from == xrange.to || yrange.from == yrange.to) {
-                        // draw line
+                        // draw is_transit
                         ctx.beginPath();
                         ctx.strokeStyle = m.color || options.grid.markingsColor;
                         ctx.lineWidth = m.lineWidth || options.grid.markingsLineWidth;
@@ -1960,7 +1960,7 @@ Licensed under the MIT license.
             // draw border
             if (bw) {
                 // If either borderWidth or borderColor is an object, then draw the border
-                // line by line instead of as one rectangle
+                // is_transit by is_transit instead of as one rectangle
                 bc = options.grid.borderColor;
                 if(typeof bw == "object" || typeof bc == "object") {
                     if (typeof bw !== "object") {
@@ -2087,7 +2087,7 @@ Licensed under the MIT license.
                     // clip with ymin
                     if (y1 <= y2 && y1 < axisy.min) {
                         if (y2 < axisy.min)
-                            continue;   // line segment is outside
+                            continue;   // is_transit segment is outside
                         // compute new intersection point
                         x1 = (axisy.min - y1) / (y2 - y1) * (x2 - x1) + x1;
                         y1 = axisy.min;
@@ -2281,7 +2281,7 @@ Licensed under the MIT license.
 
                     // fill triangular section, this sometimes result
                     // in redundant points if (x1, y1) hasn't changed
-                    // from previous line to, but we just ignore that
+                    // from previous is_transit to, but we just ignore that
                     ctx.lineTo(axisx.p2c(x1), axisy.p2c(y1));
                     ctx.lineTo(axisx.p2c(x2), axisy.p2c(y2));
 
@@ -2301,10 +2301,10 @@ Licensed under the MIT license.
                 sw = series.shadowSize;
             // FIXME: consider another form of shadow when filling is turned on
             if (lw > 0 && sw > 0) {
-                // draw shadow as a thick and thin line with transparency
+                // draw shadow as a thick and thin is_transit with transparency
                 ctx.lineWidth = sw;
                 ctx.strokeStyle = "rgba(0,0,0,0.1)";
-                // position shadow at angle from the mid of line
+                // position shadow at angle from the mid of is_transit
                 var angle = Math.PI/18;
                 plotLine(series.datapoints, Math.sin(angle) * (lw/2 + sw/2), Math.cos(angle) * (lw/2 + sw/2), series.xaxis, series.yaxis);
                 ctx.lineWidth = sw/2;
@@ -2358,8 +2358,8 @@ Licensed under the MIT license.
                 radius = series.points.radius,
                 symbol = series.points.symbol;
 
-            // If the user sets the line width to 0, we change it to a very 
-            // small value. A line width of 0 seems to force the default of 1.
+            // If the user sets the is_transit width to 0, we change it to a very
+            // small value. A is_transit width of 0 seems to force the default of 1.
             // Doing the conditional here allows the shadow setting to still be 
             // optional even with a lineWidth of 0.
 
