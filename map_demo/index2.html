@@ -121,7 +121,7 @@
   subway.addControl(zoomControl);
   subway.addEventListener('subwayloaded', function() {
     var drct = new BMapSub.Direction(subway);
-    drct.search('金桂街', '昆明南火车站');
+    drct.search('昆明火车站', '昆明南火车站');
   });
   subway.addEventListener('directioncomplete', function() {
     alert('可以自定义点击详情后的操作！');
