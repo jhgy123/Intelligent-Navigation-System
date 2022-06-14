@@ -1,3 +1,6 @@
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from neomodel import db
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -105,3 +108,69 @@ class GetDataSource(APIView):
 
 
 ######django views
+#最短路径函数实现###
+def fetch_shortestPath(sourceStation_name, targetStation_name):
+    results = db.cypher_query(query='''MATCH (source:Station {station_name: $s})
+    WITH source
+    MATCH (target:Station {station_name: $t})
+    CALL gds.shortestPath.dijkstra.stream('myGraph', {
+        sourceNode: source,
+        targetNode: target,
+        relationshipWeightProperty: 'pathcost'
+    })
+    YIELD index, sourceNode, targetNode, totalCost, nodeIds, costs, path
+    RETURN
+        index,
+        gds.util.asNode(sourceNode).station_name AS sourceNodeName,
+        gds.util.asNode(targetNode).station_name AS targetNodeName,
+        totalCost,
+        [nodeId IN nodeIds | gds.util.asNode(nodeId).station_name] AS nodeNames,
+        costs,
+        nodes(path) as path
+    ORDER BY index''', params={'s': sourceStation_name, 't': targetStation_name})
+    return results
+
+import redis
+# 创建连接对象
+r = redis.Redis(host='localhost', port=6379, db=0)
+
+def NearbyMetroStation(str):
+    building = r.geopos("Building", str)
+    # print(building)
+    subwaystation = r.georadius("SubwayStation", building[0][0], building[0][1], 3, "km",True)
+    min = 0x0ffffffff
+    for index in range(len(subwaystation)):
+        locals = subwaystation[index][0].decode('utf-8')
+        if subwaystation[index][1] < min:
+            min = subwaystation[index][1]
+            station = locals
+    return station
+
+# result = NearbyMetroStation("ynu")
+# print(result)
+# result2 = r.geopos("SubwayStation", result)
+# print(result2)
+
+def search(request):
+    if request.method == "GET": #get请求处理
+        data = {}
+        return render(request, 'pathsearch.html', context=data)
+    elif request.method == "POST": #post请求处理
+        startname = request.POST.get('startname')
+        endname = request.POST.get('endname')
+        #test
+        # startStationName=startname
+        # endStationName = endname
+
+        startStationName = NearbyMetroStation(startname)
+        endStationName = NearbyMetroStation(endname)
+        searchResult=fetch_shortestPath(startStationName, endStationName)
+        paths=searchResult[0][0][4] #最短路径的经过站点名字
+        data = {
+            "paths": paths,
+            "start": startStationName,
+            "end": endStationName
+        }
+        return render(request, 'pathsearch.html', context=data)
+
+

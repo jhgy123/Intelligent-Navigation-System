@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -25,19 +26,33 @@
 
   <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
   <script type="text/javascript" src="//api.map.baidu.com/api?type=subway&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
-  <link rel="stylesheet" href="css/index2.css">
+  <link rel="stylesheet" href="{% static 'css/pathsearch.css' %}">
 
 </head>
 <body>
 <!--<input type="text">-->
 <!--  <div id="container"></div>-->
 <div>
-  <div class="searchbox">
-    起点：<input class="txt" type="text" id="startInput"/>
-    终点：<input class="txt" type="text" id="endInput"/>
-    <input type="button" value="导航" onclick="mDriving()"/>
-  </div>
+    <form action="{% url 'fetch:search' %}" method="post" name="message">
+    {% csrf_token %}
+    <label for="start">起点</label><br>
+    <input type="text" name="startname" id="start">
+    <br>
+    <label for="end">终点</label><br>
+    <input type="text" name="endname" id="end">
+    <br>
+    <button type="submit">提交</button>
+    </form>
+{#  <div class="searchbox">#}
+{#    起点：<input class="txt" type="text" id="startInput"/>#}
+{#    终点：<input class="txt" type="text" id="endInput"/>#}
+{#    <input type="button" value="导航" onclick="mDriving()"/>#}
+{##}
+{#  </div>#}
 </div>
+<div>{{ paths }}</div>
+<div>{{ start }}</div>
+<div>{{ end }}</div>
 <div class="clear"></div>
 <div class="mainbox">
 <!--  <div class="boxmap" id="containe"></div>-->
@@ -65,7 +80,7 @@
       building: false
     }
   });
-  map.centerAndZoom('昆明市', 11);//生成地图
+  map.centerAndZoom('昆明市', 11);
   map.enableScrollWheelZoom(true);
 
 
@@ -104,6 +119,8 @@
    * }
    */
   /* globals BMapSub */
+  var start='{{ start }}';
+  var end='{{ end }}';
   var subwayCityName = '昆明';
   var list = BMapSub.SubwayCitiesList;
   var subwaycity = null;
@@ -122,7 +139,8 @@
   subway.addControl(zoomControl);
   subway.addEventListener('subwayloaded', function() {
     var drct = new BMapSub.Direction(subway);
-    drct.search('昆明火车站', '昆明南火车站');
+    drct.search(start, end);
+    {#drct.search('昆明火车站', '苏家塘');#}
   });
   subway.addEventListener('directioncomplete', function() {
     alert('可以自定义点击详情后的操作！');

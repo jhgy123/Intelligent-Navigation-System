@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+{% load staticfiles %}
+<html lang="en" class="full">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -10,7 +11,23 @@
     </style>
 </head>
 <body>
+
 <div>地铁站点路径搜索</div>
+<div class="searchbox">
+    <form action="" method="post" name="message">
+    {% csrf_token %}
+    <label for="start">起点</label><br>
+    <input type="text" name="startname" id="start">
+    <br>
+    <label for="end">终点</label><br>
+    <input type="text" name="endname" id="end">
+    <br>
+    <button type="submit">提交</button>
+    </form>
+</div>
+<div>{{ paths }}</div>
+<div>{{ start }}</div>
+<div>{{ end }}</div>
 <div id="container"></div>
 <script type="text/javascript">
     /**
@@ -23,6 +40,8 @@
      * }
      */
     /* globals BMapSub */
+    var start='{{ start }}';
+    var end='{{ end }}';
     var subwayCityName = '昆明';
     var list = BMapSub.SubwayCitiesList;
     var subwaycity = null;
@@ -41,7 +60,8 @@
     subway.addControl(zoomControl);
     subway.addEventListener('subwayloaded', function() {
         var drct = new BMapSub.Direction(subway);
-        drct.search('', '');
+        drct.search(start, end);
+        {#drct.search('穿心鼓楼','昆明南火车站');#}
     });
     subway.addEventListener('directioncomplete', function() {
         alert('可以自定义点击详情后的操作！');

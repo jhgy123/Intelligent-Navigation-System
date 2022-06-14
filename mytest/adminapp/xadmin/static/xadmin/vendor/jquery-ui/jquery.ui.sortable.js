@@ -801,7 +801,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 		//Append it after the actual current item
 		that.currentItem.after(that.placeholder);
 
-		//Update the size of the placeholder (TODO: Logic to fuzzy, see line 316/317)
+		//Update the size of the placeholder (TODO: Logic to fuzzy, see is_transit 316/317)
 		o.placeholder.update(that, that.placeholder);
 
 	},

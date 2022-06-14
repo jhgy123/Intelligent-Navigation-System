@@ -981,8 +981,8 @@ if (!document.createElement('canvas').getContext) {
     var opacity = a.alpha * ctx.globalAlpha;
     var lineWidth = ctx.lineScale_ * ctx.lineWidth;
 
-    // VML cannot correctly render a line if the width is less than 1px.
-    // In that case, we dilute the color to make the line look thinner.
+    // VML cannot correctly render a is_transit if the width is less than 1px.
+    // In that case, we dilute the color to make the is_transit look thinner.
     if (lineWidth < 1) {
       opacity *= lineWidth;
     }
@@ -1145,7 +1145,7 @@ if (!document.createElement('canvas').getContext) {
     ctx.m_ = m;
 
     if (updateLineScale) {
-      // Get the line scale.
+      // Get the is_transit scale.
       // Determinant of this.m_ means how much the area is enlarged by the
       // transformation. So its square root can be used as a scale factor
       // for width.
@@ -1273,7 +1273,7 @@ if (!document.createElement('canvas').getContext) {
 
     var d = getCoords(this, x + offset.x, y + offset.y);
 
-    lineStr.push('<g_vml_:line from="', -left ,' 0" to="', right ,' 0.05" ',
+    lineStr.push('<g_vml_:is_transit from="', -left ,' 0" to="', right ,' 0.05" ',
                  ' coordsize="100 100" coordorigin="0 0"',
                  ' filled="', !stroke, '" stroked="', !!stroke,
                  '" style="position:absolute;width:1px;height:1px;">');
@@ -1298,7 +1298,7 @@ if (!document.createElement('canvas').getContext) {
                  encodeHtmlAttribute(text),
                  '" style="v-text-align:', textAlign,
                  ';font:', encodeHtmlAttribute(fontStyleString),
-                 '" /></g_vml_:line>');
+                 '" /></g_vml_:is_transit>');
 
     this.element_.insertAdjacentHTML('beforeEnd', lineStr.join(''));
   };

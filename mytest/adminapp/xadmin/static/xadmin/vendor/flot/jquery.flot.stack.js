@@ -4,8 +4,8 @@ Copyright (c) 2007-2013 IOLA and Ole Laursen.
 Licensed under the MIT license.
 
 The plugin assumes the data is sorted on x (or y if stacking horizontally).
-For line charts, it is assumed that if a line has an undefined gap (from a
-null point), then the line above it should have the same gap - insert zeros
+For is_transit charts, it is assumed that if a is_transit has an undefined gap (from a
+null point), then the is_transit above it should have the same gap - insert zeros
 instead of "null" if you want another behaviour. This also holds for the start
 and end of the chart. Note that stacking a mix of positive and negative values
 in most instances doesn't make sense (so it looks weird).
@@ -29,7 +29,7 @@ The stacking order is determined by the order of the data series in the array
 (later series end up on top of the previous).
 
 Internally, the plugin modifies the datapoints in each series, adding an
-offset to the y value. For line series, extra data points are inserted through
+offset to the y value. For is_transit series, extra data points are inserted through
 interpolation. If there's a second y value, it's also adjusted (e.g for bar
 charts or filled areas).
 
@@ -162,7 +162,7 @@ charts or filled areas).
                         newpoints[l + 2] += bottom;
                 }
 
-                // maintain the line steps invariant
+                // maintain the is_transit steps invariant
                 if (withsteps && l != newpoints.length && l > 0
                     && newpoints[l] != null
                     && newpoints[l] != newpoints[l - ps]
