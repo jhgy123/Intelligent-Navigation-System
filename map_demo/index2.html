@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="full">
+<!--<html lang="en" class="full">-->
 <head>
   <meta charset="utf-8">
-  <title>添加点标记</title>
+  <title>智能出行导航系统</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <!--  <style>-->
 <!--    body{font-size:14px;}-->
@@ -26,20 +28,49 @@
   <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
   <script type="text/javascript" src="//api.map.baidu.com/api?type=subway&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
   <link rel="stylesheet" href="css/index2.css">
+  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../web-y/navi web/output.css">
+
 
 </head>
 <body>
 <!--<input type="text">-->
 <!--  <div id="container"></div>-->
 <div>
+
+  <div class="full flex items-center">
+    <div class="top">
+      <div>
+        <a href="home.html">
+          <i class="fa fa-home mx-4"></i>
+        </a>
+      </div>
+      <div class="flex flex-row items-center">
+        <div>
+          <a href="#">登录</a>
+        </div>
+        <i class="fa fa-user mx-4"></i>
+      </div>
+    </div>
+    <div class="bottom">
+      <p>Copyright©2022  版权所有 智能出行导航系统</p>
+    </div>
+  </div>
+  <div class="clear"></div>
+
   <div class="searchbox">
     起点：<input class="txt" type="text" id="startInput"/>
     终点：<input class="txt" type="text" id="endInput"/>
-    <input type="button" value="导航" onclick="mDriving()"/>
+<!--    <input type="button" value="导航" onclick="mDriving()"/>-->
+    <button type="submit" class="rounded px-2 py-2.5 transition ease-in-out delay-150 bg-blue-300 hover:bg-blue-500">
+      导航
+    </button>
   </div>
 </div>
 <div class="clear"></div>
 <div class="mainbox">
+  <div class="boxmap1">路径</div>
+
 <!--  <div class="boxmap" id="containe"></div>-->
   <div class="boxmap" id="container"></div>
   <div class="boxmap" id="container1"></div>
