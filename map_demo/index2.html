@@ -33,7 +33,7 @@
 
 
 </head>
-<body>
+<body class="full bg-cover bg-center" style="background-image:url(images/background-login.png)">
 <!--<input type="text">-->
 <!--  <div id="container"></div>-->
 <div>
@@ -59,17 +59,29 @@
   <div class="clear"></div>
 
   <div class="searchbox">
-    起点：<input class="txt" type="text" id="startInput"/>
-    终点：<input class="txt" type="text" id="endInput"/>
-<!--    <input type="button" value="导航" onclick="mDriving()"/>-->
-    <button type="submit" class="rounded px-2 py-2.5 transition ease-in-out delay-150 bg-blue-300 hover:bg-blue-500">
-      导航
-    </button>
+    <form action="{% url 'fetch:search' %}" method="post" name="message">
+<!--      <div>智能出行导航系统</div>-->
+<!--      {% csrf_token %}-->
+      <label for="start">起点</label>
+      <input class="txt" type="text" name="startname" id="start">
+
+      <label for="end">终点</label>
+      <input class="txt" type="text" name="endname" id="end">
+
+      <button type="submit" class="rounded px-2 py-2.5 transition ease-in-out delay-150 bg-blue-300 hover:bg-blue-500">
+        导航
+      </button>
+    </form>
+    <div class="boxmap1">路径:</div>
+<!--    <div>{{ paths }}</div>-->
+<!--    <div>{{ start }}</div>-->
+<!--    <div>{{ end }}</div>-->
   </div>
 </div>
+<!--<div class="boxmap1">路径:</div>-->
+<img class="img" src="images/R-C.jpg"/>
 <div class="clear"></div>
 <div class="mainbox">
-  <div class="boxmap1">路径</div>
 
 <!--  <div class="boxmap" id="containe"></div>-->
   <div class="boxmap" id="container"></div>
@@ -88,42 +100,42 @@
 
 </body>
 </html>
-<script type="text/javascript">
+<!--<script type="text/javascript">-->
 
-  var map = new BMapGL.Map('containe', {
-    enableDblclickZoom: false,
-    displayOptions: {
-      building: false
-    }
-  });
-  map.centerAndZoom('昆明市', 11);//生成地图
-  map.enableScrollWheelZoom(true);
-
-
-  var bd = new BMapGL.Boundary();
-  bd.get('昆明市', function (rs) {
-    console.log('外轮廓：', rs.boundaries[0]);
-    console.log('内镂空：', rs.boundaries[1]);
-    var hole = new BMapGL.Polygon(rs.boundaries);
-    map.addOverlay(hole);
-    var ply = new BMapGL.Polygon(rs.boundaries[0])
-    map.setViewport(ply.getPath());
-  });
-
-  var top_left_control = new BMapGL.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
-  map.addControl(top_left_control);//添加比例尺
-
-  //单击获取点击的经纬度
-  // map.addEventListener("click",function(e){
-  //   $("#s-point").text(e.point.lng+","+e.point.lat);
-  //   var marker = new BMap.Marker(e.point);
-  //   map.addOverlay(marker);
-  // });
+<!--  var map = new BMapGL.Map('containe', {-->
+<!--    enableDblclickZoom: false,-->
+<!--    displayOptions: {-->
+<!--      building: false-->
+<!--    }-->
+<!--  });-->
+<!--  map.centerAndZoom('昆明市', 11);//生成地图-->
+<!--  map.enableScrollWheelZoom(true);-->
 
 
+<!--  var bd = new BMapGL.Boundary();-->
+<!--  bd.get('昆明市', function (rs) {-->
+<!--    console.log('外轮廓：', rs.boundaries[0]);-->
+<!--    console.log('内镂空：', rs.boundaries[1]);-->
+<!--    var hole = new BMapGL.Polygon(rs.boundaries);-->
+<!--    map.addOverlay(hole);-->
+<!--    var ply = new BMapGL.Polygon(rs.boundaries[0])-->
+<!--    map.setViewport(ply.getPath());-->
+<!--  });-->
+
+<!--  var top_left_control = new BMapGL.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺-->
+<!--  map.addControl(top_left_control);//添加比例尺-->
+
+<!--  //单击获取点击的经纬度-->
+<!--  map.addEventListener("click",function(e){-->
+<!--    $("#s-point").text(e.point.lng+","+e.point.lat);-->
+<!--    var marker = new BMap.Marker(e.point);-->
+<!--    map.addOverlay(marker);-->
+<!--  });-->
 
 
-</script>
+
+
+<!--</script>-->
 <script type="text/javascript">
   /**
    * 从所有城市列表中获取北京信息
@@ -168,6 +180,16 @@
   });
   map.centerAndZoom('昆明市', 11);
   map.enableScrollWheelZoom(true);
+
+  var bd = new BMapGL.Boundary();
+  bd.get('昆明市', function (rs) {
+    console.log('外轮廓：', rs.boundaries[0]);
+    console.log('内镂空：', rs.boundaries[1]);
+    var hole = new BMapGL.Polygon(rs.boundaries);
+    map.addOverlay(hole);
+    var ply = new BMapGL.Polygon(rs.boundaries[0])
+    map.setViewport(ply.getPath());
+  });
 
   var startInfowin =new BMapGL.InfoWindow("<p class='t-c'><input value='选为起点' type='button' onclick='startDeter();' /></p>");
   var endInfowin =new BMapGL.InfoWindow("<p class='t-c'><input value='选为终点' type='button' onclick='endDeter();' /></p>");
