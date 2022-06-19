@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="zh-CN" class="full">
+<!--<html lang="en" class="full">-->
+<head>
+  <meta charset="utf-8">
+  <title>智能出行导航系统</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<!--  <style>-->
+<!--    body{font-size:14px;}-->
+<!--    html,-->
+<!--    #container {-->
+<!--      overflow: hidden;-->
+<!--      width: 90%;-->
+<!--      height: 90%;-->
+<!--      margin: 0;-->
+<!--      font-family: "微软雅黑";-->
+<!--    }-->
+
+  </style>
+
+  <style type="text/css">
+    body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+  </style>
+
+  <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
+  <script type="text/javascript" src="//api.map.baidu.com/api?type=subway&v=1.0&ak=K3wK3NQLZMExb9VLnPXhsH1oEC47uCcL"></script>
+  <link rel="stylesheet" href="{% static 'css/pathsearch.css' %}">
+  <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+
+</head>
+<body class="full bg-cover bg-center" style="background-image:url({% static '/images/background.jpg' %})">
+<!--<input type="text">-->
+<!--  <div id="container"></div>-->
+<div>
+
+  <div class="full flex items-center">
+    <div class="top">
+      <div>
+        <a href="{% url 'home' %}">
+          <i class="fa fa-home mx-4"></i>
+        </a>
+      </div>
+      <div class="flex flex-row items-center">
+        <div>
+          <a href="{% url 'home' %}">首页</a>
+        </div>
+        <i class="fa fa-user mx-4"></i>
+      </div>
+    </div>
+    <div class="bottom">
+      <p>Copyright©2022  版权所有 智能出行导航系统</p>
+    </div>
+  </div>
+  <div class="clear"></div>
+
+  <div class="searchbox">
+    <form action="{% url 'fetch:search' %}" method="post" name="message">
+<!--      <div>智能出行导航系统</div>-->
+<!--      -->
+        {% csrf_token %}
+      <label for="start">起点</label>
+      <input class="txt" type="text" name="startname" id="start">
+
+      <label for="end">终点</label>
+      <input class="txt" type="text" name="endname" id="end">
+
+      <button type="submit" class="rounded px-2 py-2.5 transition ease-in-out delay-150 bg-blue-300 hover:bg-blue-500">
+        导航
+      </button>
+    </form>
+    <div class="boxmap1">路径:{{ paths }}</div>
+  </div>
+</div>
+<!--<div class="boxmap1">路径:</div>-->
+<img class="img" src="{% static '/images/R-C.jpg'%}"/>
+<div class="clear"></div>
+<div class="mainbox">
+
+<!--  <div class="boxmap" id="containe"></div>-->
+  <div class="boxmap" id="container"></div>
+  <div class="boxmap" id="container1"></div>
+  <div class="boxpanel hidden" id="box">
+    <h5>起点选择 <a href="#" onclick="document.getElementById('startPanel').style.display='block';">(展开)</a></h5>
+    <div id="startPanel"></div>
+    <h5>终点选择 <a href="#" onclick="document.getElementById('endPanel').style.display='block';">(展开)</a></h5>
+    <div id="endPanel"></div>
+    <h5>导航</h5>
+    <div id="drivingPanel"></div>
+  </div>
+</div>
+
+
+
+</body>
+</html>
+<!--<script type="text/javascript">-->
+
+<!--  var map = new BMapGL.Map('containe', {-->
+<!--    enableDblclickZoom: false,-->
+<!--    displayOptions: {-->
+<!--      building: false-->
+<!--    }-->
+<!--  });-->
+<!--  map.centerAndZoom('昆明市', 11);//生成地图-->
+<!--  map.enableScrollWheelZoom(true);-->
+
+
+<!--  var bd = new BMapGL.Boundary();-->
+<!--  bd.get('昆明市', function (rs) {-->
+<!--    console.log('外轮廓：', rs.boundaries[0]);-->
+<!--    console.log('内镂空：', rs.boundaries[1]);-->
+<!--    var hole = new BMapGL.Polygon(rs.boundaries);-->
+<!--    map.addOverlay(hole);-->
+<!--    var ply = new BMapGL.Polygon(rs.boundaries[0])-->
+<!--    map.setViewport(ply.getPath());-->
+<!--  });-->
+
+<!--  var top_left_control = new BMapGL.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺-->
+<!--  map.addControl(top_left_control);//添加比例尺-->
+
+<!--  //单击获取点击的经纬度-->
+<!--  map.addEventListener("click",function(e){-->
+<!--    $("#s-point").text(e.point.lng+","+e.point.lat);-->
+<!--    var marker = new BMap.Marker(e.point);-->
+<!--    map.addOverlay(marker);-->
+<!--  });-->
+
+
+
+
+<!--</script>-->
+<script type="text/javascript">
+  /**
+   * 从所有城市列表中获取北京信息
+   * 结果格式
+   * {
+   *     keyword: 'beijing',
+   *     name: '北京',
+   *     citycode: '131'
+   * }
+   */
+  /* globals BMapSub */
+  var start='{{ start }}';
+  var end='{{ end }}';
+  var subwayCityName = '昆明';
+  var list = BMapSub.SubwayCitiesList;
+  var subwaycity = null;
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].name === subwayCityName) {
+      subwaycity = list[i];
+      break;
+    }
+  }
+  // 获取北京地铁数据-初始化地铁图
+  var subway = new BMapSub.Subway('container1', subwaycity.citycode);
+  var zoomControl  = new BMapSub.ZoomControl({
+    anchor: BMAPSUB_ANCHOR_BOTTOM_RIGHT,
+    offset: new BMapSub.Size(10,100)
+  });
+  subway.addControl(zoomControl);
+  subway.addEventListener('subwayloaded', function() {
+    var drct = new BMapSub.Direction(subway);
+    drct.search(start, end);
+    {#drct.search('昆明火车站', '昆明南火车站');#}
+  });
+  subway.addEventListener('directioncomplete', function() {
+    alert('可以自定义点击详情后的操作！');
+  });
+</script>
+<script type="text/javascript">
+  var map = new BMapGL.Map('container', {
+    enableDblclickZoom: false,
+    displayOptions: {
+      building: false
+    }
+  });
+  map.centerAndZoom('昆明市', 11);
+  map.enableScrollWheelZoom(true);
+
+  var bd = new BMapGL.Boundary();
+  bd.get('昆明市', function (rs) {
+    console.log('外轮廓：', rs.boundaries[0]);
+    console.log('内镂空：', rs.boundaries[1]);
+    var hole = new BMapGL.Polygon(rs.boundaries);
+    map.addOverlay(hole);
+    var ply = new BMapGL.Polygon(rs.boundaries[0])
+    map.setViewport(ply.getPath());
+  });
+
+  var startInfowin =new BMapGL.InfoWindow("<p class='t-c'><input value='选为起点' type='button' onclick='startDeter();' /></p>");
+  var endInfowin =new BMapGL.InfoWindow("<p class='t-c'><input value='选为终点' type='button' onclick='endDeter();' /></p>");
+
+  var startResults =null;
+  var endResults =null;
+
+  var startPoint;
+  var endPoint;
+
+  //var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true,panel:drivingPanel}});
+  var driving = new BMapGL.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true, panel:'drivingPanel'}});
+
+
+
+  var startOption = {
+    onSearchComplete: function(results){
+      // 判断状态是否正确
+      if (startSearch.getStatus() == BMAP_STATUS_SUCCESS){
+        startResults = results;
+        var s = [];
+        for (var i =0; i < results.getCurrentNumPois(); i ++){
+          s.push("<div><p><a onmouseover='map.openInfoWindow(startInfowin,startResults.getPoi("+ i +").point);' href='#'>");
+          s.push(results.getPoi(i).title);
+          s.push("</a></p><p>");
+          s.push(results.getPoi(i).address);
+          s.push("</p></div>");
+        }
+        document.getElementById("startPanel").innerHTML = s.join("");
+      }else{startResults =null;}
+    }
+  };
+  var endOption = {
+    onSearchComplete: function(results){
+      // 判断状态是否正确
+      if (endSearch.getStatus() == BMAP_STATUS_SUCCESS){
+        endResults = results;
+        var s = [];
+        for (var i =0; i < results.getCurrentNumPois(); i ++){
+          s.push("<div><p><a href='#' onmouseover='map.openInfoWindow(endInfowin,endResults.getPoi("+ i +").point);'>");
+          s.push(results.getPoi(i).title);
+          s.push("</a></p><p>");
+          s.push(results.getPoi(i).address);
+          s.push("</p></div>");
+        }
+        document.getElementById("endPanel").innerHTML = s.join("");
+      }else{endResults =null;}
+    }
+  };
+  //创建2个搜索实例
+  var startSearch =new BMapGL.LocalSearch(map,startOption);
+  var endSearch =new BMapGL.LocalSearch(map,endOption);
+  // var walking = new BMapGL.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
+  // walking.search("西单", "慈云寺");
+
+  function mDriving(){
+    var startPlace = document.getElementById("startInput").value;
+    var endPlace = document.getElementById("endInput").value;
+    startSearch.search(startPlace);
+    endSearch.search(endPlace);
+    document.getElementById("box").style.display="block";
+  }
+
+  function startDeter(){
+    map.clearOverlays();
+    startPoint = startInfowin.getPosition();
+    var marker =new BMapGL.Marker(startPoint);
+    map.addOverlay(marker);
+    document.getElementById("startPanel").style.display="none";
+  }
+  function endDeter(){
+    if(startPoint==null){alert("请先选择起点！");}
+    else{
+      endPoint = endInfowin.getPosition();
+      driving.search(startPoint,endPoint);
+      document.getElementById("endPanel").style.display="none";
+    }
+  }
+</script>

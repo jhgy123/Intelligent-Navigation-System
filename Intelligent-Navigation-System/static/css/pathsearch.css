@@ -1,0 +1,78 @@
+body{font-size:14px;}
+h5{line-height:3em;padding:0;margin:0;}
+a{color:#EE3399;}
+a:hover{color:#99AA66;}
+.txt{
+    border:1px solid #ccc;
+    background:none;
+    padding:1px;
+    height:30px;
+}
+.f-l{
+    float:left;
+}
+.t-c{
+    text-align:center;
+}
+.clear{
+    clear:both;
+}
+.hidden{
+    display:none;
+}
+.searchbox{
+    border:4px solid #e5ecf9;
+    height:180px;
+    float:left;
+    line-height:40px;
+    padding:0 20px;
+    margin:25px 0 0 50px;
+    width: 1000px;
+}
+.mainbox{
+    margin:20px 0 0;
+}
+.boxmap{
+    width:766px;
+    height:500px;
+    border:1px solid gray;
+    float:left;
+}
+.mainbox1{
+    margin:0px 0 0;
+}
+.boxmap1{
+    width:800px;
+    height:120px;
+    border:5px solid whitesmoke;
+    float:left;
+    margin:5px 0 3px 0px;
+
+}
+.boxpanel{
+    width:250px;
+    float:left;
+    margin:0 0 0 10px;
+    border:1px solid gray;
+    padding:0 10px 10px;
+}
+#startPanel,#endPanel{
+    border:1px solid #FA8722;
+    font-size:12px;
+}
+#startPanel div,#endPanel div{
+    padding:5px;
+}
+#startPanel p,#endPanel p{
+    margin:0;
+    paddin:0;
+    line-height:1.2em;
+}
+#drivingPanel{
+    border:1px solid #6688EE;
+}
+.img{
+    height: 185px;
+    width: 400px;
+    margin:20px 0 3px 0px;
+}

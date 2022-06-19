@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" class="full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能出行导航系统</title>
+     <link href="{% static 'css/output.css' %}" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+</head>
+<body class="full bg-cover bg-center" style="background-image:url({% static '/images/background.jpg' %})">
+    <div class="full">
+        <div class="top">
+            <div>
+                <a href="{% url 'home' %}">
+                    <i class="fa fa-home mx-4"></i>
+                </a>
+            </div>
+            <div class="flex flex-row items-center">
+                <div class="dropdown">
+                    <button class="px-2 hover:bg-blue-400">登录</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'user:login_user' %}">用户登录</a>
+                        <a href="/xadmin/">管理员登录</a>
+                    </div>
+                </div>
+                <i class="fa fa-user mr-4 ml-2"></i>
+            </div>
+        </div>
+        <div class="absolute top-20 left-32 p-2 hover:-translate-y-1 hover:scale-110">
+            <h1 class="text-8xl text-white">智能出行导航系统</h1>
+        </div>
+        <div class="absolute top-56 left-56 p-2 hover:-translate-y-1 hover:scale-110">
+            <p class="text-7xl text-white">畅行须导航，乐行有方向</p>
+        </div>
+        <div class="overflow-hidden w-1/2 h-3/5 absolute top-72 left-1/4">
+            <div class="display">
+                <div>
+                    <img src="{% static 'images/display-1.jpg'%}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-2.jpg'%}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-3.jpg'%}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-4.jpg'%}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-5.jpg'%}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-6.jpg'%}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-7.jpg'%}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-8.jpg'%}"/>
+                </div>
+                <div>
+                    <img src="{% static 'images/display-9.jpg'%}"/>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <p>Copyright©2022  版权所有 智能出行导航系统</p>
+        </div>
+    </div>
+</body>
+</html>
